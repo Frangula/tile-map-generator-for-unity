@@ -1,0 +1,64 @@
+{
+  "name": "Resources",
+  "dirPath": "Assets/Resources",
+  "childs": [
+    {
+      "name": "MapFiles",
+      "dirPath": "Assets/Resources/MapFiles",
+      "childs": [
+        {
+          "name": "SampleScene",
+          "dirPath": "Assets/Resources/MapFiles/SampleScene",
+          "filenames": [
+            "conn_test_1",
+            "conn_test_2",
+            "conn_test_3"
+          ]
+        }
+      ],
+      "filenames": []
+    },
+    {
+      "name": "Prefabs",
+      "dirPath": "Assets/Resources/Prefabs",
+      "filenames": [
+        "Enter",
+        "New Palette",
+        "RoomTester",
+        "TestPrefab"
+      ]
+    },
+    {
+      "name": "Tiles",
+      "dirPath": "Assets/Resources/Tiles",
+      "childs": [
+        {
+          "name": "SampleScene",
+          "dirPath": "Assets/Resources/Tiles/SampleScene",
+          "filenames": [
+            "testing_tiles_0",
+            "testing_tiles_1",
+            "testing_tiles_10",
+            "testing_tiles_11",
+            "testing_tiles_12",
+            "testing_tiles_13",
+            "testing_tiles_14",
+            "testing_tiles_15",
+            "testing_tiles_2",
+            "testing_tiles_3",
+            "testing_tiles_4",
+            "testing_tiles_5",
+            "testing_tiles_6",
+            "testing_tiles_7",
+            "testing_tiles_8",
+            "testing_tiles_9"
+          ]
+        }
+      ],
+      "filenames": []
+    }
+  ],
+  "filenames": [
+    "AssetsFileNames"
+  ]
+}
