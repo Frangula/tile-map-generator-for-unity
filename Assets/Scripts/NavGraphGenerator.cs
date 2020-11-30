@@ -23,7 +23,7 @@ namespace TileMapGenerator.NavigationGraphGenerator
         {
             // Create NavGraph of 'ground' layer of the room
             RoomNavGraph rg = new RoomNavGraph(map, sizeX, sizeY, roomOrigin, neighbourMap);
-            roomNavGraphs.Add(rg);
+            //roomNavGraphs.Add(rg);
             return rg;
         }
 

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using Unity.Mathematics;
+using TileMapGenerator.NavigationGraphGenerator;
 using System;
 
 namespace TileMapGenerator.MapGenerator
@@ -16,18 +17,27 @@ namespace TileMapGenerator.MapGenerator
         private List<string> filenames = new List<string>();
         private List<Tilemap> tileMapLayers;
 
+        private Tile debugTile;
+        private Tilemap debugMap;
+
         public int mapSizeX;
         public int mapSizeY;
+
+        public TileMapFiller()
+        {
+            debugTile = Resources.Load<Tile>("Tiles/DebugTiles/Square");
+            debugMap = GameObject.Find("GraphNodes").GetComponent<Tilemap>();
+        }
 
         public TileMapFiller(string sceneName)
         {
             LoadSceneTiles(sceneName);
             tileMapLayers = new List<Tilemap>()
-        {
-            GameObject.Find("Ground").GetComponent<Tilemap>(),
-            GameObject.Find("Water").GetComponent<Tilemap>(),
-            GameObject.Find("InteractableObjects").GetComponent<Tilemap>()
-        };
+            {
+                GameObject.Find("Ground").GetComponent<Tilemap>(),
+                GameObject.Find("Water").GetComponent<Tilemap>(),
+                GameObject.Find("InteractableObjects").GetComponent<Tilemap>()
+            };
         }
 
         private string PadNumbers(string input)
@@ -96,6 +106,11 @@ namespace TileMapGenerator.MapGenerator
                 }
                 worldX--;
             }
+        }
+
+        public void DrawGraphNodes(PathNode node)
+        {
+            debugMap.SetTile(new Vector3Int(node.xPos, node.yPos, 0), debugTile);
         }
 
         public void ClearTilemap()

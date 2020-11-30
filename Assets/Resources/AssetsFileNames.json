@@ -12,7 +12,11 @@
           "filenames": [
             "conn_test_1",
             "conn_test_2",
-            "conn_test_3"
+            "conn_test_3",
+            "conn_test_4",
+            "conn_test_5",
+            "conn_test_6",
+            "conn_test_7"
           ]
         }
       ],
@@ -32,6 +36,13 @@
       "name": "Tiles",
       "dirPath": "Assets/Resources/Tiles",
       "childs": [
+        {
+          "name": "DebugTiles",
+          "dirPath": "Assets/Resources/Tiles/DebugTiles",
+          "filenames": [
+            "Square"
+          ]
+        },
         {
           "name": "SampleScene",
           "dirPath": "Assets/Resources/Tiles/SampleScene",

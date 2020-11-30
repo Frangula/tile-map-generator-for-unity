@@ -42,17 +42,16 @@ namespace TileMapGenerator.NavigationGraphGenerator
 
         private int[] ReshapeMapArray(int[] map)
         {
-            int worldX;
+            int worldY = RoomSizeY - 1;
             int[] tempMap = new int[map.Length];
-            Array.Reverse(map);
+            //Array.Reverse(map);
             for (int y = 0; y < RoomSizeY; y++)
             {
-                worldX = 0;
-                for (int x = RoomSizeX - 1; x >= 0; x--)
+                for (int x = 0; x <RoomSizeX; x++)
                 {
-                    tempMap[y * RoomSizeX + worldX] = map[y * RoomSizeX + x];
-                    worldX++;
+                    tempMap[worldY * RoomSizeX + x] = map[y * RoomSizeX + x];
                 }
+                worldY--;
             }
             return tempMap;
         }
@@ -63,7 +62,7 @@ namespace TileMapGenerator.NavigationGraphGenerator
             {
                 for (int x = 0; x < RoomSizeX; x++)
                 {
-                    if ((y == 0 && roomMap[x + y * RoomSizeX] == 0) || (roomMap[x + (y * RoomSizeX)] == 0 && roomMap[x + (y - 1) * RoomSizeX] != 0))
+                    if ((y == 0 && roomMap[x + y * RoomSizeX] == 0) || (roomMap[x + y * RoomSizeX] == 0 && roomMap[x + (y - 1) * RoomSizeX] != 0))
                     {
                         // Consider that we cant jump through platforms
                         // Nodes must have LOCAL SPACE coordinates for proper neighbourhood detection

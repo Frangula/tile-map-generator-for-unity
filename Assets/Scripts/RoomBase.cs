@@ -22,15 +22,7 @@ namespace TileMapGenerator.MapGenerator
 
         public RoomNavGraph navGraph;
 
-        //public RoomBase nextHorizontal;
-        //public RoomBase nextVertical;
-
         public RoomBase[] nextRooms;
-
-        //public RoomBase nextTop;
-        //public RoomBase nextLeft;
-        //public RoomBase nextRight;
-        //public RoomBase nextBottom;
 
         private List<Layer> layers;
         private MapBuilder parentBase;
@@ -39,8 +31,9 @@ namespace TileMapGenerator.MapGenerator
 
         private class Layer
         {
-            public string compressedMap;
             private int[] decompessedMap;
+
+            public string compressedMap;
             public string compressionType;
             public string encoding;
 
@@ -139,7 +132,7 @@ namespace TileMapGenerator.MapGenerator
             }
         }
 
-        public RoomBase(MapBuilder aBase, int index, int sizeX, int sizeY, int[] weights/*string map, string compType, string encoding*/)
+        public RoomBase(MapBuilder aBase, int index, int sizeX, int sizeY, int[] weights)
         {
             roomIndex = index;
             this.sizeX = sizeX;
@@ -225,9 +218,22 @@ namespace TileMapGenerator.MapGenerator
         public int[] GetDecompressedMap(int layerIndex)
         {
             if (layerIndex < layers.Count)
-                return layers[layerIndex].DecompressMap();
+                return layers[layerIndex].Map;
             else
                 return new int[] { -1 };
+        }
+
+        public void ConnectNavGraphToNeighbour()
+        {
+            foreach(RoomBase n in nextRooms)
+            {
+                if(n != null)
+                {
+                    navGraph.ConnectBlindNodes(n.navGraph);
+                    n.navGraph.ConnectBlindNodes(navGraph);
+                }
+            }
+            navGraph.CleanUp();
         }
     }
 }

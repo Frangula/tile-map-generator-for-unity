@@ -18,6 +18,7 @@ namespace TileMapGenerator.MapGenerator
         private NavGraphGenerator navGraphGenerator;
 
         private List<RoomBase> nextVar = new List<RoomBase>();
+        private Dictionary<int, PathNode> navigationGraph = new Dictionary<int, PathNode>();
         //private int 
 
         // list of all possible rooms
@@ -39,9 +40,12 @@ namespace TileMapGenerator.MapGenerator
         {
             LoadRoomsForScene(SceneManager.GetActiveScene().name);
             InitializeMap();
-            BuildConnections(mapList[0], 10);
+            BuildConnections(mapList[0], 4);
             //BuildNavGraph();
             FillTilemap(SceneManager.GetActiveScene().name);
+
+            BuildNavGraph();
+
             rooms.Clear();
         }
 
@@ -138,12 +142,9 @@ namespace TileMapGenerator.MapGenerator
             int x = 0;
             int y = 0;
 
-            if (mapList.Count == mapLength)
-                return;
-
             for (int i = 0; i < 4; i++)
             {
-                if (i != room.baseEdge)
+                if (i != room.baseEdge && mapList.Count < mapLength)
                 {
                     // fix that switch!!!
                     switch (i)
@@ -180,6 +181,8 @@ namespace TileMapGenerator.MapGenerator
                         mapMatrix[x, y] = true;
                     }
                 }
+                else if (mapList.Count >= mapLength)
+                    break;
             }
 
             foreach (RoomBase rb in room.nextRooms)
@@ -232,11 +235,11 @@ namespace TileMapGenerator.MapGenerator
             IList layers = mapProperties["layers"].Children().ToList();
 
             int[] weights = new int[] {
-            (int)mapProperties["properties"][3]["value"],
-            (int)mapProperties["properties"][2]["value"],
-            (int)mapProperties["properties"][0]["value"],
-            (int)mapProperties["properties"][1]["value"]
-        };
+                (int)mapProperties["properties"][3]["value"],
+                (int)mapProperties["properties"][2]["value"],
+                (int)mapProperties["properties"][0]["value"],
+                (int)mapProperties["properties"][1]["value"]
+            };
 
             RoomBase r = new RoomBase(this, 0, width, height, weights);
 
@@ -284,17 +287,24 @@ namespace TileMapGenerator.MapGenerator
                 }
             }
 
-            navGraphGenerator.ConnectRoomNavGraphs();
+            //navGraphGenerator.ConnectRoomNavGraphs();
         }
 
-        //private void BuildNavGraph()
-        //{
-        //    NavGraphGenerator graphGenerator = new NavGraphGenerator();
-        //    foreach(RoomBase rb in mapList)
-        //    {
-        //        graphGenerator.GenerateRoomNavGraph(rb.GetDecompressedMap(0), rb.sizeX, rb.sizeY);
-        //    }
-        //}
+        private void BuildNavGraph()
+        {
+            TileMapFiller grapthDrawer = new TileMapFiller();
+            foreach(RoomBase rb in mapList)
+            {
+                rb.ConnectNavGraphToNeighbour();
+                rb.navGraph.RecalcNodesCoordsToWorld();
+
+                foreach(PathNode node in rb.navGraph.nodes.Values)
+                {
+                    navigationGraph.Add(node.GetHashCode(), node);
+                    grapthDrawer.DrawGraphNodes(node);
+                }
+            }
+        }
 
         private bool CheckMapPassability()
         {
